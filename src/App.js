@@ -25,30 +25,36 @@ class App extends Component {
       <>
         <Header />
         <div className="container">
-          <Sidebar data={this.state.data}>
-            <Route
-              exact
-              path='/'
-              component={MainSidebar}
-              render={(routerProps) => {
-              console.log(routerProps)
-              return <Sidebar data={this.state.data}
-              /> }
-              } 
-            />
-            <Route
-              path='/folder/:folderid'
-              render={(routerProps) => {
-              console.log(routerProps)
-              return <FolderSidebar id={this.state.data.folders.id}
-                />}
-              }
-            />
-          </Sidebar>
-          <Main data={this.state.data}>
-            <Route path='/' component={MainMain} />
-            <Route path='/folder/:folderid' component={FolderMain} />
-          </Main>
+          <Route
+            exact
+            path='/'
+            render={(routerProps) => {
+              return <Sidebar id={this.state.data.folders.id} data={this.state.data}
+            /> }
+            } 
+          />
+          <Route
+            path='/folder/:folderid'
+            render={(routerProps) => {
+            return <Sidebar id={this.state.data.folders.id} data={this.state.data}
+              />}
+            }
+          />
+
+          <Route
+            exact
+            path='/'
+            render={() => 
+              <Main data={this.state.data} /> } 
+          />
+          <Route path='/folder/:folderid'
+            render={(routerProps) => {
+              console.log(routerProps);
+              return <Main
+                data={this.state.data}
+                folderId={routerProps.match.params.folderid} /> }
+            } />
+
         </div>
       </>
     );

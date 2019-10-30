@@ -3,7 +3,13 @@ import './main.scss';
 
 class Main extends Component {
   render() {
-    const notes = this.props.data.notes.map((note, i) => {
+    console.log(this.props);
+    let notes = this.props.data.notes;
+    if (this.props.folderId ) {
+      notes = notes.filter(n => n.folderId === this.props.folderId)
+    }
+    console.log(notes);
+    notes = notes.map((note, i) => {
       return <li 
         className="note" 
         key={i}
@@ -13,6 +19,7 @@ class Main extends Component {
         <button type="button">Delete Note</button>
       </li>
     })
+    console.log(notes);
     return (
       <main className="main">
         <ul>{notes}</ul>
