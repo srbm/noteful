@@ -6,9 +6,8 @@ import { Route } from 'react-router-dom';
 import Header from './Header/header';
 import Sidebar from './Sidebar/sidebar';
 import Main from './Main/main';
-import MainSidebar from './MainSidebar/mainSidebar';
+import NoteSidebar from './NoteSidebar/noteSidebar';
 import FolderSidebar from './FolderSidebar/folderSidebar';
-import MainMain from './MainMain/mainMain';
 import FolderMain from './FolderMain/folderMain';
 
 
@@ -20,7 +19,6 @@ class App extends Component {
     }
   }
   render() {
-    console.log(this.state);
     return (
       <>
         <Header />
@@ -29,15 +27,27 @@ class App extends Component {
             exact
             path='/'
             render={(routerProps) => {
-              return <Sidebar id={this.state.data.folders.id} data={this.state.data}
+              return <Sidebar data={this.state.data}
             /> }
             } 
           />
           <Route
             path='/folder/:folderid'
             render={(routerProps) => {
-            return <Sidebar id={this.state.data.folders.id} data={this.state.data}
-              />}
+              return <Sidebar
+                folderid={routerProps.match.params.folderid}
+                data={this.state.data}
+              /> }
+            }
+          />
+          <Route
+            path='/note/:note'
+            render={(routerProps) => {
+              console.log(routerProps);
+              return <NoteSidebar
+                note={routerProps.match.params.note}
+                data={this.state.data}
+              /> }
             }
           />
 
@@ -52,8 +62,10 @@ class App extends Component {
               console.log(routerProps);
               return <Main
                 data={this.state.data}
-                folderId={routerProps.match.params.folderid} /> }
-            } />
+                folderId={routerProps.match.params.folderid}
+              /> }
+            }
+          />
 
         </div>
       </>

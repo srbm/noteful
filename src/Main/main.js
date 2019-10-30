@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './main.scss';
+import { Link } from 'react-router-dom';
 
 class Main extends Component {
   render() {
@@ -8,18 +9,16 @@ class Main extends Component {
     if (this.props.folderId ) {
       notes = notes.filter(n => n.folderId === this.props.folderId)
     }
-    console.log(notes);
     notes = notes.map((note, i) => {
       return <li 
         className="note" 
         key={i}
         folderid={note.folderId}>
-        <h2>{note.name}</h2>
+        <Link to={'/note/' + note.id}><h2>{note.name}</h2></Link>
         <p>{note.modified}</p>
         <button type="button">Delete Note</button>
       </li>
     })
-    console.log(notes);
     return (
       <main className="main">
         <ul>{notes}</ul>
