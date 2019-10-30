@@ -7,8 +7,7 @@ import Header from './Header/header';
 import Sidebar from './Sidebar/sidebar';
 import Main from './Main/main';
 import NoteSidebar from './NoteSidebar/noteSidebar';
-import FolderSidebar from './FolderSidebar/folderSidebar';
-import FolderMain from './FolderMain/folderMain';
+import NoteMain from './NoteMain/noteMain';
 
 
 class App extends Component {
@@ -46,6 +45,7 @@ class App extends Component {
               console.log(routerProps);
               return <NoteSidebar
                 note={routerProps.match.params.note}
+                history={routerProps.history}
                 data={this.state.data}
               /> }
             }
@@ -63,6 +63,16 @@ class App extends Component {
               return <Main
                 data={this.state.data}
                 folderId={routerProps.match.params.folderid}
+              /> }
+            }
+          />
+          <Route
+            path='/note/:note'
+            render={(routerProps) => {
+              console.log(routerProps);
+              return <NoteMain
+                note={routerProps.match.params.note}
+                data={this.state.data}
               /> }
             }
           />
