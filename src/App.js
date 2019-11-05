@@ -47,13 +47,7 @@ class App extends Component {
             />
             <Route
               path='/note/:note'
-              render={(routerProps) => {
-                return <NoteSidebar
-                  note={routerProps.match.params.note}
-                  history={routerProps.history}
-                  data={this.state}
-                /> }
-              }
+              component={NoteSidebar}
             />
 
             <Route

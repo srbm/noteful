@@ -6,7 +6,6 @@ import NoteContext from '../NotesContext';
 class Sidebar extends Component {
   static contextType = NoteContext;
   render() {
-    console.log(this.context)
     const folders = this.context.folders.map((folder, i) => {
       return <li className="sidebar__folder" key={i}>
         <NavLink to={'/folder/' + folder.id} >{folder.name}</NavLink>
