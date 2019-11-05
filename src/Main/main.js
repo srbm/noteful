@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
+import NoteContext from '../NotesContext';
 import './main.scss';
-import { Link } from 'react-router-dom';
+import Note from '../Note/note';
 
 class Main extends Component {
+  static contextType = NoteContext;
   render() {
-    console.log(this.props);
-    let notes = this.props.data.notes;
-    if (this.props.folderId ) {
-      notes = notes.filter(n => n.folderId === this.props.folderId)
+    let { notes } = this.context;
+    if (this.props.match.params.folderid ) {
+      notes = notes.filter(n => n.folderId === this.props.match.params.folderid)
     }
     notes = notes.map((note, i) => {
-      return <li 
-        className="note" 
+      return <Note
         key={i}
-        folderid={note.folderId}>
-        <Link to={'/note/' + note.id}><h2>{note.name}</h2></Link>
-        <p>{note.modified}</p>
-        <button type="button">Delete Note</button>
-      </li>
+        folderId={note.folderId}
+        id={note.id}
+        name={note.name}
+        date={note.modified}
+        />
     })
     return (
       <main className="main">

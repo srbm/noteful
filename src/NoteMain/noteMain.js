@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import './noteMain.scss';
-import { Link } from 'react-router-dom';
+import NotesContext from '../NotesContext';
 
 class NoteMain extends Component {
+  static contextType = NotesContext;
   render() {
-    let note = this.props.data.notes.filter(n => n.id === this.props.note);
+    const { notes } = this.context;
+    let note = notes.filter(n => n.id === this.props.match.params.note);
     note = note[0];
     console.log(note);
     return (

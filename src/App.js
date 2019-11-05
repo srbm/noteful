@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import data from './dummy-store.js';
 import { Route } from 'react-router-dom';
-
+import NotesContext from './NotesContext';
 import Header from './Header/header';
 import Sidebar from './Sidebar/sidebar';
 import Main from './Main/main';
@@ -14,70 +14,63 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data
+      notes: data.notes,
+      folders: data.folders,
     }
   }
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter(n => n.id !== noteId);
+    this.setState({
+      notes: newNotes,
+    });
+  }
+
   render() {
+    const contextValue = {
+      notes: this.state.notes,
+      folders: this.state.folders,
+      deleteNote: this.deleteNote,
+    }
     return (
       <>
         <Header />
-        <div className="container">
-          <Route
-            exact
-            path='/'
-            render={(routerProps) => {
-              return <Sidebar data={this.state.data}
-            /> }
-            } 
-          />
-          <Route
-            path='/folder/:folderid'
-            render={(routerProps) => {
-              return <Sidebar
-                folderid={routerProps.match.params.folderid}
-                data={this.state.data}
-              /> }
-            }
-          />
-          <Route
-            path='/note/:note'
-            render={(routerProps) => {
-              console.log(routerProps);
-              return <NoteSidebar
-                note={routerProps.match.params.note}
-                history={routerProps.history}
-                data={this.state.data}
-              /> }
-            }
-          />
+        <NotesContext.Provider value={contextValue}>
+          <div className="container">
+            <Route
+              exact
+              path='/'
+              component={Sidebar} 
+            />
+            <Route
+              path='/folder/:folderid'
+              component={Sidebar}
+            />
+            <Route
+              path='/note/:note'
+              render={(routerProps) => {
+                return <NoteSidebar
+                  note={routerProps.match.params.note}
+                  history={routerProps.history}
+                  data={this.state}
+                /> }
+              }
+            />
 
-          <Route
-            exact
-            path='/'
-            render={() => 
-              <Main data={this.state.data} /> } 
-          />
-          <Route path='/folder/:folderid'
-            render={(routerProps) => {
-              console.log(routerProps);
-              return <Main
-                data={this.state.data}
-                folderId={routerProps.match.params.folderid}
-              /> }
-            }
-          />
-          <Route
-            path='/note/:note'
-            render={(routerProps) => {
-              console.log(routerProps);
-              return <NoteMain
-                note={routerProps.match.params.note}
-                data={this.state.data}
-              /> }
-            }
-          />
+            <Route
+              exact
+              path='/'
+              component={Main}
+            />
+            <Route path='/folder/:folderid'
+              component={Main}
+            />
+            <Route
+              path='/note/:note'
+              component={NoteMain}
+            />
 
-        </div>
+          </div>
+        </NotesContext.Provider>
       </>
     );
   }
