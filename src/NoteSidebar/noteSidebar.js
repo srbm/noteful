@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component,  } from 'react';
 import NoteContext from '../NotesContext';
 import './noteSidebar.scss';
-import { Link } from 'react-router-dom';
 
 class NoteSidebar extends Component {
   static contextType = NoteContext;
@@ -14,7 +13,7 @@ class NoteSidebar extends Component {
     console.log(folder);
     return (
       <ul className="sidebar">
-        <Link className="back-button" to={'/folder/' + folderId}>Go Back</Link>
+        <button className="back-button" onClick={this.props.history.goBack}>Go Back</button>
         <div className="folder-name">Folder: {folder[0].name}</div>
       </ul>
     )
