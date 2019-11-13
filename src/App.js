@@ -30,13 +30,14 @@ class App extends Component {
       }
       return res.json();
     })
-    .then( () => {
+    .then(() => {
       const newNotes = this.state.notes.filter(n => n.id !== noteId);
       console.log(newNotes, noteId);
       this.setState({
         notes: newNotes,
       });
-    });
+    })
+    .catch(err => console.log(err))
   }
   componentDidMount() {
     fetch('http://localhost:9090/folders', {
