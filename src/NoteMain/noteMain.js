@@ -17,7 +17,12 @@ class NoteMain extends Component {
             folderid={note.folderId}>
             <h2>{note.name}</h2>
             <p>{note.modified}</p>
-            <button type="button">Delete Note</button>
+            <button onClick={() => {
+              this.context.deleteNote(note.id);
+              this.props.history.push('/'); 
+            }
+              } 
+              type="button">Delete Note</button>
           </div>
           <p>{note.content}</p>
         </div>

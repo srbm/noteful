@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 import NotesContext from '../NotesContext';
 
 class Note extends Component {
+  
   render() {
     return (
-      <NotesContext.Consumer>
-      <li className="note" >
+      <li className="note">
         <Link to={'/note/' + this.props.id}><h2>{this.props.name}</h2></Link>
         <p>{this.props.date}</p>
-        <button type="button">Delete Note</button>
+        <button onClick={() => this.props.deleteNote(this.props.id)} type="button">Delete Note</button>
       </li>
-      </NotesContext.Consumer>
     )
   }
 }

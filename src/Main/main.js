@@ -17,6 +17,7 @@ class Main extends Component {
         id={note.id}
         name={note.name}
         date={note.modified}
+        deleteNote={this.context.deleteNote}
         />
     })
     return (

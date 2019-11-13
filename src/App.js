@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import data from './dummy-store.js';
 import { Route } from 'react-router-dom';
 import NotesContext from './NotesContext';
 import Header from './Header/header';
@@ -14,16 +13,57 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      notes: data.notes,
-      folders: data.folders,
+      notes: [],
+      folders: []
     }
   }
   deleteNote = noteId => {
-    const newNotes = this.state.notes.filter(n => n.id !== noteId);
-    this.setState({
-      notes: newNotes,
+    fetch(`http://localhost:9090/notes/${noteId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+    })
+    .then(res => {
+      if(!res.ok) {
+        throw new Error(res.status);
+      }
+      return res.json();
+    })
+    .then( () => {
+      const newNotes = this.state.notes.filter(n => n.id !== noteId);
+      console.log(newNotes, noteId);
+      this.setState({
+        notes: newNotes,
+      });
     });
   }
+  componentDidMount() {
+    fetch('http://localhost:9090/folders', {
+      method: 'GET',
+    })
+      .then(res => {
+        if(!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json();
+      })
+      .then(folders => this.setState({folders}))
+      .catch(err => console.log(err));
+
+      fetch('http://localhost:9090/notes', {
+        method: 'GET',
+      })
+      .then(res => {
+        if(!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json();
+      })
+      .then(notes => this.setState({notes}))
+      .catch(err => console.log(err));
+  }
+
 
   render() {
     const contextValue = {
@@ -54,6 +94,7 @@ class App extends Component {
               exact
               path='/'
               component={Main}
+
             />
             <Route path='/folder/:folderid'
               component={Main}
