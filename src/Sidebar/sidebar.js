@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './sidebar.scss';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import NoteContext from '../NotesContext';
 
 class Sidebar extends Component {
   static contextType = NoteContext;
+  
   render() {
+    
     const folders = this.context.folders.map((folder, i) => {
       return <li className="sidebar__folder" key={i}>
         <NavLink to={'/folder/' + folder.id} >{folder.name}</NavLink>
@@ -14,7 +16,7 @@ class Sidebar extends Component {
     return (
       <ul className="sidebar">
         {folders}
-        <button className="add-folder-button" type="button">Add Folder</button>
+        <Link to={'/add-folder'} className="add-folder-button" type="button">Add Folder</Link>
       </ul>
     )
   }

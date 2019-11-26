@@ -7,6 +7,7 @@ import Sidebar from './Sidebar/sidebar';
 import Main from './Main/main';
 import NoteSidebar from './NoteSidebar/noteSidebar';
 import NoteMain from './NoteMain/noteMain';
+import AddFolder from './AddFolder/AddFolder';
 
 
 class App extends Component {
@@ -39,6 +40,13 @@ class App extends Component {
     })
     .catch(err => console.log(err))
   }
+
+  addFolder = folder => {
+    this.setState({
+      folders: [...this.state.folders, folder]
+    })
+  }
+
   componentDidMount() {
     fetch('http://localhost:9090/folders', {
       method: 'GET',
@@ -71,6 +79,8 @@ class App extends Component {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.deleteNote,
+      addFolder: this.addFolder,
+      addNote: this.addNote,
     }
     return (
       <>
@@ -89,6 +99,10 @@ class App extends Component {
             <Route
               path='/note/:note'
               component={NoteSidebar}
+            />
+            <Route
+              path='/add-folder'
+              component={AddFolder}
             />
 
             <Route

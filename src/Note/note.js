@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import NotesContext from '../NotesContext';
 
 class Note extends Component {
   
